@@ -1,4 +1,4 @@
-instructor>=1.2.2
-pydantic>=2.7.1
+instructor
+pydantic
 openai>=1.23.6
 wandb>=0.16.6
