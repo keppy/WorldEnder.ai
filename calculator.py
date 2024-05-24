@@ -6,7 +6,7 @@ This could be used as inspiration for a REPL.
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.layout.containers import HSplit, Window
+from prompt_toolkit.layout.containers import HSplit, VSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
@@ -25,36 +25,43 @@ Press Control-C to exit.
 def main():
     player1 = Player()
     # The layout.
-    search_field = SearchToolbar()  # For reverse search.
 
     output_field = TextArea(style="class:output-field", text=help_text)
     status_bar = Window(
-        height=5,
         content=FormattedTextControl(player1.statusbar_text),
         style="class:line"
     )
     input_field = TextArea(
-        height=1,
-        prompt=">>> ",
+        prompt="> ",
         style="class:input-field",
         multiline=False,
         wrap_lines=False,
-        search_field=search_field,
     )
 
-    container = HSplit(
+    game_pane = HSplit(
         [
             output_field,
+            input_field
+        ]
+    )
+    container = VSplit(
+        [
+            game_pane,
             status_bar,
-            input_field,
-            search_field,
         ]
     )
 
+    starting_prompt = None
+    intro = False
     def accept(buff):
         if not player1.name:
             try:
                 player1.name = input_field.text
+            except BaseException as e:
+                output = f"\n\n{e}"
+        elif not player1.city:
+            try:
+                player1.city = input_field.text
             except BaseException as e:
                 output = f"\n\n{e}"
 
@@ -63,6 +70,23 @@ def main():
             output_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
+        elif not player1.city:
+            new_text = output_field.text + '\nPlease enter your starting city below...'
+            output_field.buffer.document = Document(
+                text=new_text, cursor_position=len(new_text)
+            )
+        elif not starting_prompt:
+            text = 'The WorldEnder.AI interface buzzes and humms as you attach the neural-link interface cable to your spine...'
+            output_field.buffer.document = Document(
+                text=text, cursor_position=len(text)
+            )
+        elif intro:
+            text = '''
+            You wake up in your same old room and feel a sense of dread. Something is not quite right in the world and you can't put your finger on it.
+
+            The whales have attacked.
+            '''
+
 
     input_field.accept_handler = accept
 

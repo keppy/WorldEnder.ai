@@ -1,6 +1,7 @@
 from prompt_toolkit import prompt, print_formatted_text, PromptSession, HTML
 from prompt_toolkit.styles import Style
 from prompt_toolkit.cursor_shapes import CursorShape, ModalCursorShapeConfig
+from tabulate import tabulate
 
 DEFAULT_CONFIG = {
     'name': '',
@@ -117,9 +118,16 @@ class Player(object):
         print_formatted_text(HTML(f'<springgreen>Nice to meet you, {self.name}. Welcome to the WorldEnder.ai augmented reality simulation.</springgreen>'))
 
     def statusbar_text(self):
-        return f'''
-            name: {self.name}          city: {self.city}
-            movement: {self.movement}  skill: {self.skill}
-            item: {self.item}          ailment: {self.ailment}
-            hp: {self.hp}              sanity: {self.sanity}
-        '''
+        headers = ['property', 'value']
+        table = [
+            ['Name', self.name],
+            ['City', self.city],
+            ['Ailment', self.ailment],
+            ['HP', self.hp],
+            ['Sanity', self.sanity],
+            ['Movement', self.movement],
+            ['Item', self.item],
+            ['Skill', self.skill],
+
+        ]
+        return tabulate(table, headers, tablefmt='rounded_outline')
