@@ -21,8 +21,6 @@ help_text = """
 Enter your name below to get started:
 
 """
-global intro
-global starting_prompt
 GAME_STATE = {'step': 'intro', 'starting_prompt': None}
 def main():
     player1 = Player()
