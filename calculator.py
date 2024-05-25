@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
-A simple example of a calculator program.
-This could be used as inspiration for a REPL.
+The WorldEnder.ai text-adventure interface
 """
 from prompt_toolkit.application import Application
 from prompt_toolkit.document import Document
@@ -15,16 +14,18 @@ from prompt_toolkit.widgets import SearchToolbar, TextArea
 from player import Player
 
 help_text = """
-Welcome to WorldEnder.ai
+(Press Control-C to exit)
 
-Enter your name below to get started
+**Welcome to WorldEnder.ai**
 
-Press Control-C to exit.
+Enter your name below to get started:
+
 """
-
+global intro
+global starting_prompt
+GAME_STATE = {'step': 'intro', 'starting_prompt': None}
 def main():
     player1 = Player()
-    # The layout.
 
     output_field = TextArea(style="class:output-field", text=help_text)
     status_bar = Window(
@@ -51,8 +52,6 @@ def main():
         ]
     )
 
-    starting_prompt = None
-    intro = False
     def accept(buff):
         if not player1.name:
             try:
@@ -75,18 +74,25 @@ def main():
             output_field.buffer.document = Document(
                 text=new_text, cursor_position=len(new_text)
             )
-        elif not starting_prompt:
-            text = 'The WorldEnder.AI interface buzzes and humms as you attach the neural-link interface cable to your spine...'
+        elif GAME_STATE['step'] is 'intro':
+            text = output_field.text + '\nThe WorldEnder.AI interface buzzes and humms to life as you attach the neural-link interface cable to your spine...'
+            output_field.buffer.newline()
+            output_field.buffer.newline()
             output_field.buffer.document = Document(
                 text=text, cursor_position=len(text)
             )
-        elif intro:
-            text = '''
-            You wake up in your same old room and feel a sense of dread. Something is not quite right in the world and you can't put your finger on it.
-
-            The whales have attacked.
-            '''
-
+            output_field.buffer.newline()
+            GAME_STATE['step'] = 'prompt'
+        elif GAME_STATE['step'] is 'prompt':
+            output_field.buffer.newline()
+            output_field.buffer.newline()
+            text = output_field.text + """\nYou wake up in your same old room and feel a sense of dread.
+Something is not quite right in the world and you can't put your finger on it.
+Describe the world ending event which you are having a preminition about:
+            """
+            output_field.buffer.document = Document(
+                text=text, cursor_position=len(text)
+            )
 
     input_field.accept_handler = accept
 
@@ -118,7 +124,6 @@ def main():
     )
 
     application.run()
-
 
 if __name__ == "__main__":
     main()
