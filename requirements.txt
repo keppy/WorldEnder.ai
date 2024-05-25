@@ -1,5 +1,7 @@
+asyncio
 bs4
 instructor
 pydantic
 openai>=1.23.6
 wandb>=0.16.6
+tabulate
