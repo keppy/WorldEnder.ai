@@ -73,7 +73,7 @@ def main():
                 text=new_text, cursor_position=len(new_text)
             )
         elif GAME_STATE['step'] is 'intro':
-            text = output_field.text + '\nThe WorldEnder.AI interface buzzes and humms to life as you attach the neural-link interface cable to your spine...'
+            text = output_field.text + '\nThe WorldEnder.AI interface buzzes and hums to life as you attach the neural-link interface cable to your spine...'
             output_field.buffer.newline()
             output_field.buffer.newline()
             output_field.buffer.document = Document(
@@ -86,7 +86,7 @@ def main():
             output_field.buffer.newline()
             text = output_field.text + """\nYou wake up in your same old room and feel a sense of dread.
 Something is not quite right in the world and you can't put your finger on it.
-Describe the world ending event which you are having a preminition about:
+Describe the world ending event which you are having a premonition about:
             """
             output_field.buffer.document = Document(
                 text=text, cursor_position=len(text)
