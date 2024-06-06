@@ -1,3 +1,6 @@
+![we](https://github.com/keppy/WorldEnder.ai/assets/1513098/ec35d5d5-cf33-4d67-b567-49cd579ee29a)
+
+
 # WorldEnder.ai 🌎💥
 A text-adventure RPG using structured outputs from LLMs as the backend to simulate the decline of humanity, the outcome of global catastrophes, and your quest to rebuild civilization.
 
