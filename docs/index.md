@@ -17,4 +17,4 @@ Massively multiplayer, with many langauge models to choose from.
 * Follow [@keppylab_ai](https://x.com/keppylab_ai) on X
 
 
-Built by James @ [KeppyLab](https://github.com/keppy/WorldEnder.ai)
+Built by James @ [KeppyLab](https://keppylab.com)

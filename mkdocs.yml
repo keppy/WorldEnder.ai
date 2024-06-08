@@ -1,4 +1,5 @@
 site_name: WorldEnder.ai
+site_url: https://worldender.ai
 theme:
     name: material
     palette:
