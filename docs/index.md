@@ -1,7 +1,7 @@
 # Welcome to WorldEnder.ai 
-![WorldEnder.ai](/assets/we_hero.png)
+![WorldEnder.ai](/assets/we_hero2.png)
 
-A text-adventure RPG about world ending events and recovering from them!
+A text-adventure RPG about world ending events--and recovering from them!
 
 Massively multiplayer, with many langauge models to choose from.
 
