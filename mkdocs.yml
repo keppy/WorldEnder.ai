@@ -1,0 +1,8 @@
+site_name: WorldEnder.ai
+theme:
+    name: material
+    palette:
+      primary: red
+markdown_extensions:
+    - attr_list
+    - md_in_html
