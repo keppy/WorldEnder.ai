@@ -2,7 +2,7 @@
   "name": "worldender-ai",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/cdiddy77/worldender-ai.git",
+  "repository": "https://github.com/keppy/WorldEnder.ai.git",
   "license": "MIT",
   "private": true,
   "devDependencies": {
