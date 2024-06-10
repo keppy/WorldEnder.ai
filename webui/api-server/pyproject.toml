@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "api-server"
+version = "0.1.0"
+description = ""
+authors = ["Charles Parker <charlesparker@Charless-MacBook-Pro-2.local>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.111.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
