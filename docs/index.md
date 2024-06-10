@@ -1,5 +1,5 @@
 # Welcome to WorldEnder.ai 
-![WorldEnder.ai](/assets/we_hero2.png)
+![WorldEnder.ai](/assets/we_hero2.png){ loading=lazy }
 
 A text-adventure RPG about world ending events--and recovering from them!
 
