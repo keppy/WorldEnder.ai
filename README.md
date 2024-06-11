@@ -11,8 +11,8 @@ Execute `python calculator.py` to run the game:
 ## Slides and Notebooks
 [Presentation Slides](https://github.com/keppy/WorldEnder.ai/blob/master/WorldEnder.ai.pdf)
 
-[Experiment Notebook](https://github.com/keppy/WorldEnder.ai/blob/master/WorldEnder_ai.ipynb)
+[Experiment Notebook](https://github.com/keppy/WorldEnder.ai/blob/master/notebooks/WorldEnder_ai.ipynb)
 
-[Presentation Notebook (with some teaching)](https://github.com/keppy/WorldEnder.ai/blob/master/WorldEnder_ai_Presentation.ipynb)
+[Presentation Notebook (with some teaching)](https://github.com/keppy/WorldEnder.ai/blob/master/notebooks/WorldEnder_ai_Presentation.ipynb)
 
 Copyright &copy; 2024 James Dominguez
