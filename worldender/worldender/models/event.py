@@ -15,4 +15,4 @@ class Event(BaseModel):
     def report(self):
         dct = self.model_dump()
         dct["usage"] = self._raw_response.usage.model_dump()
-        return dc
+        return dct
