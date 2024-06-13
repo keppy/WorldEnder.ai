@@ -6,6 +6,7 @@ load_dotenv()
 
 from fastapi import FastAPI, Path, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from worldender.models.location import Location
 from worldender.simulation import next_event
 from .dtos import (
@@ -22,11 +23,23 @@ from .error_handling import *
 from .storage import *
 
 # this gives a lot of detail from openai, instructor and pymongo
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -43,6 +56,9 @@ async def new_scenario(scenario_init: NewScenarioRequest) -> NewScenarioResponse
         player=Player(name=scenario_init.player_name, city=scenario_init.city),
         last_event=None,
     )
+    event = await next_event(scenario_init.scenario)
+    logger.info(f"Got event: {event}")
+    scenario.last_event = event
     await store_scenario(id, scenario)
     return NewScenarioResponse(slug=slug, result="success")
 
