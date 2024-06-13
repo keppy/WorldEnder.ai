@@ -13,17 +13,10 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { HomeIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import { useNewScenario } from "./useNewScenario";
 
 export function NewScenario() {
-  const [showForm, setShowForm] = useState(true);
-  const router = useRouter();
-  const handleAccept = () => {
-    setShowForm(false);
-  };
-  const handleContinue = () => {
-    console.log("Continue");
-    router.push("/scenario/1");
-  };
+  const hook = useNewScenario();
   return (
     <div className="flex min-h-[100dvh] flex-col black-900 text-gray-50">
       <Link
@@ -34,7 +27,7 @@ export function NewScenario() {
         <HomeIcon className="w-6 h-6 text-gray-900 dark:text-gray-100" />
       </Link>
       <main className="container mx-auto flex flex-1 flex-col items-center justify-center px-4 py-12 md:px-6 lg:py-24">
-        {showForm ? (
+        {hook.showForm ? (
           <div className="mx-auto w-full max-w-md space-y-6">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Begin the Ending...
@@ -42,13 +35,27 @@ export function NewScenario() {
             <form className="space-y-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Enter your name" />
+                <Input
+                  id="name"
+                  placeholder="Enter your name"
+                  value={hook.name}
+                  onChange={(ev) => hook.setName(ev.target.value)}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="city">Starting City</Label>
-                <Input id="city" placeholder="Enter your starting city" />
+                <Input
+                  id="city"
+                  placeholder="Enter your starting city"
+                  value={hook.city}
+                  onChange={(ev) => hook.setCity(ev.target.value)}
+                />
               </div>
-              <Button onClick={handleAccept} className="w-full">
+              <Button
+                onClick={hook.handleAccept}
+                className="w-full"
+                disabled={!hook.acceptEnabled}
+              >
                 Accept
               </Button>
             </form>
@@ -72,8 +79,14 @@ export function NewScenario() {
               <Textarea
                 className="h-32 w-full resize-both"
                 placeholder="Describe the world ending event..."
+                value={hook.worldEndingEvent}
+                onChange={(ev) => hook.setWorldEndingEvent(ev.target.value)}
               />
-              <Button onClick={handleContinue} className="w-full">
+              <Button
+                onClick={hook.handleContinue}
+                className="w-full"
+                disabled={!hook.continueEnabled}
+              >
                 Continue
               </Button>
             </div>

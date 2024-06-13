@@ -1,8 +1,14 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
 /* This file was automatically generated from pydantic models by running pydantic2ts.
 /* Do not modify it by hand - just update the pydantic models and then re-run the script
 */
 
+export interface Choice {
+  choice: string;
+  predefined_index: number | null;
+}
 /**
  * Event is a possilbe World Ending event, with a list of possible outcomes
  * country and city fields should represent a real location
@@ -46,19 +52,23 @@ export interface Outcome {
   /**
    * A list of three outcomes; two are world ending outcomes and one keeps the world going
    */
-  outcomes: Outcome[];
+  outcomes: string[];
 }
-export interface GetScenarioResponse {
-  scenario_id: number;
-  event: Event;
-  player: Player;
-  outcome: Outcome;
+export interface NewScenarioRequest {
+  player_name: string;
+  city: string;
+  scenario: string;
+}
+export interface NewScenarioResponse {
+  slug: string;
   result: "success" | "failure";
 }
 export interface Player {}
-export interface NewScenarioResponse {
-  id: string;
-  result: "success" | "failure";
+export interface Scenario {
+  slug: string;
+  world: World;
+  player: Player;
+  last_event: Event | null;
 }
 /**
  * World for the WorldEnder.ai game.
@@ -102,7 +112,7 @@ export interface Location {
   /**
    * The parent location
    */
-  parent?: Location;
+  parent?: Location | null;
   /**
    * The children locations
    */

@@ -24,11 +24,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { HomeIcon } from "@radix-ui/react-icons";
+import { useScenarioState } from "./useScenarioState";
 
-export function ScenarioState() {
-  const [paragraphText, setParagraphText] = React.useState(
-    "A massive wildfire has erupted in the Amazon rainforest near Manaus, Brazil. The fire is spreading rapidly due to dry conditions and strong winds, threatening biodiversity and local communities. The smoke from the fire could potentially affect air quality across South America."
-  );
+interface Props {
+  slug: string;
+}
+
+export const ScenarioState: React.FC<Props> = ({ slug }) => {
+  const hook = useScenarioState(slug);
   return (
     <div className="flex min-h-screen flex-col bg-gray-950 text-gray-50">
       <Link
@@ -40,7 +43,9 @@ export function ScenarioState() {
       </Link>
       <div className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20 flex flex-wrap items-center">
         <div className="space-y-8 flex-1 mr-8">
-          <div className="text-xl space-y-4 flex-1">{paragraphText}</div>
+          <div className="text-xl space-y-4 flex-1">
+            {hook.data?.last_event?.description}
+          </div>
         </div>
         <img
           alt="Image"
@@ -64,23 +69,40 @@ export function ScenarioState() {
               <Link
                 className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
                 href="#"
+                onClick={() =>
+                  hook.handleAction(
+                    hook.data?.last_event?.possible_outcomes[0].choices[0] ?? ""
+                  )
+                }
               >
                 <h3 className="text-2xl font-bold">
-                  Increase international firefighting efforts
+                  {hook.data?.last_event?.possible_outcomes[0].choices[0]}
                 </h3>
               </Link>
               <Link
                 className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
                 href="#"
+                onClick={() =>
+                  hook.handleAction(
+                    hook.data?.last_event?.possible_outcomes[0].choices[1] ?? ""
+                  )
+                }
               >
-                <h3 className="text-2xl font-bold">Ignore the fire</h3>
+                <h3 className="text-2xl font-bold">
+                  {hook.data?.last_event?.possible_outcomes[0].choices[1]}
+                </h3>
               </Link>
               <Link
                 className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
                 href="#"
+                onClick={() =>
+                  hook.handleAction(
+                    hook.data?.last_event?.possible_outcomes[0].choices[2] ?? ""
+                  )
+                }
               >
                 <h3 className="text-2xl font-bold">
-                  Focus on local containment
+                  {hook.data?.last_event?.possible_outcomes[0].choices[2]}
                 </h3>
               </Link>
             </div>
@@ -92,12 +114,17 @@ export function ScenarioState() {
           <Label htmlFor="message" className="text-3xl">
             or...
           </Label>
-          <Textarea id="message" placeholder="you have a better idea." />
-          <Button className="w-full" type="submit">
+          <Textarea
+            id="message"
+            placeholder="you have a better idea."
+            value={hook.betterIdea}
+            onChange={(ev) => hook.setBetterIdea(ev.target.value)}
+          />
+          <Button className="w-full" onClick={hook.handleBetterIdea}>
             Submit
           </Button>
         </div>
       </section>
     </div>
   );
-}
+};

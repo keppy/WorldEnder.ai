@@ -32,7 +32,8 @@ docker-compose up -d
 ### api server
 
 ```
-poetry run fastapi dev webui.api-server.main:app --reload
+cd webui/api-server
+poetry run fastapi dev main.py --reload
 ```
 
 ### web frontend
