@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import openai
+import instructor
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -27,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 app = FastAPI()
+aclient = instructor.patch(openai.AsyncOpenAI())
 
 origins = [
     "http://localhost:3000",
@@ -55,7 +58,7 @@ async def new_scenario(scenario_init: NewScenarioRequest) -> NewScenarioResponse
         player=Player(name=scenario_init.player_name, city=scenario_init.city),
         last_event=None,
     )
-    event = await next_event(scenario_init.scenario)
+    event = await next_event(scenario_init.scenario, aclient)
     logger.info(f"Got event: {event}")
     scenario.last_event = event
     await store_scenario(id, scenario)
@@ -72,7 +75,7 @@ async def get_scenario(scenario_id: str):
 async def choose(scenario_id: str, choice: Choice):
     scenario = await fetch_scenario(scenario_id)
     logger.info(f"Choosing {choice} for scenario {scenario_id}")
-    event: Event = await next_event(choice.choice)
+    event: Event = await next_event(choice.choice, aclient)
     logger.info(f"Got event: {event}")
     scenario.last_event = event
     await store_scenario(scenario_id, scenario)
