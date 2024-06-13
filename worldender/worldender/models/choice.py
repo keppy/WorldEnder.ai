@@ -4,12 +4,14 @@ from typing import List
 class Choice(BaseModel):
     """
     Choice is a possible choice to make in response to an Event
+    This choice will have an impact on the world and how the story progresses
+    It could lead to the world ending sooner, or later
     """
     choice: str = Field(
         description="The choice to make in response to the event"
     )
     consequence: str = Field(
-        description="A description of the choice and its consequences"
+        description="The outcome of the choice made in response to the event"
     )
 
     def report(self):
