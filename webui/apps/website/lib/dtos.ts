@@ -5,11 +5,6 @@
 /* Do not modify it by hand - just update the pydantic models and then re-run the script
 */
 
-export interface Choice {
-  choice: string;
-  predefined_index: number | null;
-}
-/**
  * Event is a possilbe World Ending event, with a list of possible outcomes
  * country and city fields should represent a real location
  */
@@ -27,9 +22,34 @@ export interface Event {
    */
   description: string;
   /**
-   * three to five possible outcomes that are influenced by the location of this event
+   * Three possible choices to take in reaction to this event, which will dictate the next event in the world
    */
-  possible_outcomes: Outcome[];
+  possible_choices: Choice[];
+}
+/**
+ * Choice is a possible choice to make in response to an Event
+ * This choice will have an impact on the world and how the story progresses
+ * It could lead to the world ending sooner, or later
+ */
+export interface Choice {
+  /**
+   * The choice to make in response to the event
+   */
+  choice: string;
+  /**
+   * The outcome of the choice made in response to the event
+   */
+  consequence: string;
+  [k: string]: unknown;
+}
+export interface NewScenarioRequest {
+  player_name: string;
+  city: string;
+  scenario: string;
+}
+export interface NewScenarioResponse {
+  slug: string;
+  result: "success" | "failure";
 }
 /**
  * Outcome is the likely outcome from an Event, taking into account
@@ -41,27 +61,6 @@ export interface Outcome {
    * An unlikely but scary outcome description, one we didn't see coming
    */
   description: string;
-  /**
-   * The price that must be paid for progress. This is casualties, deaths, or other tragedies.
-   */
-  consequence: string;
-  /**
-   * A List of choices; only one of them will keep the world from ending
-   */
-  choices: string[];
-  /**
-   * A list of three outcomes; two are world ending outcomes and one keeps the world going
-   */
-  outcomes: string[];
-}
-export interface NewScenarioRequest {
-  player_name: string;
-  city: string;
-  scenario: string;
-}
-export interface NewScenarioResponse {
-  slug: string;
-  result: "success" | "failure";
 }
 export interface Player {}
 export interface Scenario {

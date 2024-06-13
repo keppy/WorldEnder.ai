@@ -1,10 +1,9 @@
-import os
 import logging
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from fastapi import FastAPI, Path, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from worldender.models.location import Location
@@ -73,7 +72,7 @@ async def get_scenario(scenario_id: str):
 async def choose(scenario_id: str, choice: Choice):
     scenario = await fetch_scenario(scenario_id)
     logger.info(f"Choosing {choice} for scenario {scenario_id}")
-    event = await next_event(choice.choice)
+    event: Event = await next_event(choice.choice)
     logger.info(f"Got event: {event}")
     scenario.last_event = event
     await store_scenario(scenario_id, scenario)

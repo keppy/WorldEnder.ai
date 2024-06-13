@@ -12,8 +12,6 @@ A text-adventure RPG using structured outputs from LLMs as the backend to simula
 
 [Presentation Notebook (with some teaching)](https://github.com/keppy/WorldEnder.ai/blob/master/notebooks/WorldEnder_ai_Presentation.ipynb)
 
-Copyright &copy; 2024 James Dominguez
-
 ## How to develop website
 
 ### install python deps
@@ -44,3 +42,5 @@ yarn dev
 ```
 
 at that point, the DB, api server, and web FE are all running, and you can make code changes and they will hot-reload
+
+Copyright &copy; 2024 James Dominguez

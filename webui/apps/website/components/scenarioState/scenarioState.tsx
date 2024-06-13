@@ -71,12 +71,12 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[0] ?? ""
+                    hook.data?.last_event?.possible_choices[0].choice ?? ""
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[0]}
+                  {hook.data?.last_event?.possible_choices[0].choice}
                 </h3>
               </Link>
               <Link
@@ -84,12 +84,12 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[1] ?? ""
+                    hook.data?.last_event?.possible_choices[1].choice ?? ""
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[1]}
+                  {hook.data?.last_event?.possible_choices[1].choice}
                 </h3>
               </Link>
               <Link
@@ -97,12 +97,12 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[2] ?? ""
+                    hook.data?.last_event?.possible_choices[2].choice ?? ""
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[2]}
+                  {hook.data?.last_event?.possible_choices[2].choice}
                 </h3>
               </Link>
             </div>

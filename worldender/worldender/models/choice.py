@@ -15,4 +15,6 @@ class Choice(BaseModel):
     )
 
     def report(self):
-        return self.model_dump()
+        dct = self.model_dump()
+        dct["usage"] = self._raw_response.usage.model_dump()
+        return dct

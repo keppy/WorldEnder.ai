@@ -18,7 +18,7 @@ import { useNewScenario } from "./useNewScenario";
 export function NewScenario() {
   const hook = useNewScenario();
   return (
-    <div className="flex min-h-[100dvh] flex-col black-900 text-gray-50">
+    <div className="flex min-h-[100dvh] flex-col black-900 text-gray-50 bg-gray-950">
       <Link
         href="/"
         className="m-16 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors self-start"
@@ -35,7 +35,8 @@ export function NewScenario() {
             <form className="space-y-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input
+                <Input 
+                  className="text-black"
                   id="name"
                   placeholder="Enter your name"
                   value={hook.name}
@@ -44,7 +45,8 @@ export function NewScenario() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="city">Starting City</Label>
-                <Input
+                <Input 
+                  className="text-black"
                   id="city"
                   placeholder="Enter your starting city"
                   value={hook.city}
@@ -77,7 +79,7 @@ export function NewScenario() {
                 having a premonition about:
               </p>
               <Textarea
-                className="h-32 w-full resize-both"
+                className="text-black h-32 w-full resize-both"
                 placeholder="Describe the world ending event..."
                 value={hook.worldEndingEvent}
                 onChange={(ev) => hook.setWorldEndingEvent(ev.target.value)}
