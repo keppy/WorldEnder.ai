@@ -19,7 +19,7 @@ class Event(BaseModel):
         description="A two to three sentance description of the event and its outcome"
     )
     possible_choices: List[Choice] = Field(
-        description="Three possible choices to take which will dictate the next event in the world"
+        description="Three possible choices to take in reaction to this event, which will dictate the next event in the world"
     )
 
     def report(self):
