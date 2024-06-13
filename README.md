@@ -4,12 +4,6 @@
 
 A text-adventure RPG using structured outputs from LLMs as the backend to simulate the decline of humanity, the outcome of global catastrophes, and your quest to rebuild civilization.
 
-## How to play
-
-Execute `python calculator.py` to run the game:
-
-<img width="817" alt="Screenshot 2024-05-25 at 12 06 20 PM" src="https://github.com/keppy/WorldEnder.ai/assets/1513098/ef51c053-0a7f-4e10-9ede-86732c51d1e0">
-
 ## Slides and Notebooks
 
 [Presentation Slides](https://github.com/keppy/WorldEnder.ai/blob/master/WorldEnder.ai.pdf)
@@ -18,9 +12,12 @@ Execute `python calculator.py` to run the game:
 
 [Presentation Notebook (with some teaching)](https://github.com/keppy/WorldEnder.ai/blob/master/notebooks/WorldEnder_ai_Presentation.ipynb)
 
-Copyright &copy; 2024 James Dominguez
-
 ## How to develop website
+
+### install python deps
+```
+poetry install --with api-server
+```
 
 ### database
 
@@ -33,14 +30,17 @@ docker-compose up -d
 
 ```
 cd webui/api-server
-poetry run fastapi dev main.py --reload
+poetry run fastapi dev main.py --reload --port 8080
 ```
 
 ### web frontend
 
 ```
 cd webui/apps/website
+yarn install
 yarn dev
 ```
 
 at that point, the DB, api server, and web FE are all running, and you can make code changes and they will hot-reload
+
+Copyright &copy; 2024 James Dominguez

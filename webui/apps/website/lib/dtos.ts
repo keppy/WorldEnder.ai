@@ -5,8 +5,13 @@
 /* Do not modify it by hand - just update the pydantic models and then re-run the script
 */
 
+/* Choice is a possible choice to make in response to an Event
+* This choice will have an impact on the world and how the story progresses
+* It could lead to the world ending sooner, or later
+*/
 export interface Choice {
   choice: string;
+  consequence: string;
   predefined_index: number | null;
 }
 /**
@@ -27,33 +32,12 @@ export interface Event {
    */
   description: string;
   /**
-   * three to five possible outcomes that are influenced by the location of this event
+   * Three possible choices to take in reaction to this event, which will dictate the next event in the world
    */
-  possible_outcomes: Outcome[];
+  possible_choices: Choice[];
 }
-/**
- * Outcome is the likely outcome from an Event, taking into account
- * recent developments in obscure wars, as we believe their impact
- * is more nuanced and far reaching than the government realizes.
- */
-export interface Outcome {
-  /**
-   * An unlikely but scary outcome description, one we didn't see coming
-   */
-  description: string;
-  /**
-   * The price that must be paid for progress. This is casualties, deaths, or other tragedies.
-   */
-  consequence: string;
-  /**
-   * A List of choices; only one of them will keep the world from ending
-   */
-  choices: string[];
-  /**
-   * A list of three outcomes; two are world ending outcomes and one keeps the world going
-   */
-  outcomes: string[];
-}
+
+
 export interface NewScenarioRequest {
   player_name: string;
   city: string;
@@ -68,7 +52,10 @@ export interface Scenario {
   slug: string;
   world: World;
   player: Player;
-  last_event: Event | null;
+  last_event?: Event | null;
+  last_world_ender?: WorldEnder | null;
+  events?: Event[];
+  world_enders?: WorldEnder[];
 }
 /**
  * World for the WorldEnder.ai game.
@@ -122,4 +109,27 @@ export interface Location {
    */
   destroyed?: boolean;
   [k: string]: unknown;
+}
+/**
+ * An apocolyptic event that the human race, and likely the world, cannot come back from.
+ * This will likely be a nuclear event. The consiquences will likely be long term fallout.
+ * The class should tell the story of how we got here and why these things happened.
+ */
+export interface WorldEnder {
+  /**
+   * What kind of world ending event was this? (astrological, biological, war, etc.)
+   */
+  kind: string;
+  /**
+   * A detailed description of what happened, including the Events and Outcomes involved
+   */
+  description: string;
+  /**
+   * The total estimated cost of human life as a readable number example: 1bil
+   */
+  death_toll: string;
+  /**
+   * The percentage chance that any humans will survive the world ending event
+   */
+  survival_rate: number;
 }

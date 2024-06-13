@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List
-from .outcome import Outcome
+from .choice import Choice
 
 
 class Event(BaseModel):
@@ -18,8 +18,8 @@ class Event(BaseModel):
     description: str = Field(
         description="A two to three sentance description of the event and its outcome"
     )
-    possible_outcomes: List[Outcome] = Field(
-        description="three to five possible outcomes that are influenced by the location of this event"
+    possible_choices: List[Choice] = Field(
+        description="Three possible choices to take in reaction to this event, which will dictate the next event in the world"
     )
 
     def report(self):

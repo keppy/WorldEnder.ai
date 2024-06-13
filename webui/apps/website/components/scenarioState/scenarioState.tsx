@@ -30,6 +30,26 @@ interface Props {
   slug: string;
 }
 
+const constructQuery = (evenDescription: string, choice: string) => {
+  return `
+    ${evenDescription},
+    you observed these hardships on the world and decided to
+    ${choice}`;
+}
+
+const DisplayScenarioState = (hook: ReturnType<typeof useScenarioState>) => {
+  if (!hook.data) {
+    return <p>No data</p>;
+  }
+  let display: string = "";
+  if (hook.data?.last_world_ender?.description) {
+    display = hook.data.last_world_ender.description;
+  } else if (hook.data?.last_event?.description) {
+    display = hook.data.last_event.description;
+  }
+  return display;
+}
+
 export const ScenarioState: React.FC<Props> = ({ slug }) => {
   const hook = useScenarioState(slug);
   return (
@@ -44,7 +64,7 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
       <div className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20 flex flex-wrap items-center">
         <div className="space-y-8 flex-1 mr-8">
           <div className="text-xl space-y-4 flex-1">
-            {hook.data?.last_event?.description}
+            {DisplayScenarioState(hook)}
           </div>
         </div>
         <img
@@ -71,12 +91,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[0] ?? ""
+                    constructQuery(
+                      hook.data?.last_event?.description ?? "",
+                      hook.data?.last_event?.possible_choices[0].choice ?? ""
+                    )
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[0]}
+                  {hook.data?.last_event?.possible_choices[0].choice}
                 </h3>
               </Link>
               <Link
@@ -84,12 +107,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[1] ?? ""
+                    constructQuery(
+                      hook.data?.last_event?.description ?? "",
+                      hook.data?.last_event?.possible_choices[1].choice ?? ""
+                    )
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[1]}
+                  {hook.data?.last_event?.possible_choices[1].choice}
                 </h3>
               </Link>
               <Link
@@ -97,12 +123,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
                 href="#"
                 onClick={() =>
                   hook.handleAction(
-                    hook.data?.last_event?.possible_outcomes[0].choices[2] ?? ""
+                    constructQuery(
+                      hook.data?.last_event?.description ?? "",
+                      hook.data?.last_event?.possible_choices[2].choice ?? ""
+                    )
                   )
                 }
               >
                 <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_outcomes[0].choices[2]}
+                  {hook.data?.last_event?.possible_choices[2].choice}
                 </h3>
               </Link>
             </div>
