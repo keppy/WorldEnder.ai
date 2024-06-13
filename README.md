@@ -16,6 +16,11 @@ Copyright &copy; 2024 James Dominguez
 
 ## How to develop website
 
+### install python deps
+```
+poetry install --with api-server
+```
+
 ### database
 
 ```
@@ -27,13 +32,14 @@ docker-compose up -d
 
 ```
 cd webui/api-server
-poetry run fastapi dev main.py --reload
+poetry run fastapi dev main.py --reload --port 8080
 ```
 
 ### web frontend
 
 ```
 cd webui/apps/website
+yarn install
 yarn dev
 ```
 
