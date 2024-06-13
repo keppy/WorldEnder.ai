@@ -19,6 +19,7 @@ export function useScenarioState(slug: string) {
           postScenarioChooseUri(slug),
           {
             choice: idea,
+            consequence: "",
             predefined_index: 0,
           }
         );

@@ -6,6 +6,7 @@ import instructor
 import openai
 
 from .models.event import Event
+from .models.world_ender import WorldEnder
 from .config import app_config
 
 
@@ -46,7 +47,7 @@ async def next_world_ender(query: str, aclient: openai.Client) -> Event:
     return await aclient.chat.completions.create(
         model=cfg.llm_model,
         temperature=cfg.llm_temp,
-        response_model=Event,
+        response_model=WorldEnder,
         messages=[
             {
                 "role": "system",
