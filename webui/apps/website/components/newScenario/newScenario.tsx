@@ -35,8 +35,7 @@ export function NewScenario() {
             <form className="space-y-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input 
-                  className="text-black"
+                <Input
                   id="name"
                   placeholder="Enter your name"
                   value={hook.name}
@@ -45,8 +44,7 @@ export function NewScenario() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="city">Starting City</Label>
-                <Input 
-                  className="text-black"
+                <Input
                   id="city"
                   placeholder="Enter your starting city"
                   value={hook.city}
@@ -79,7 +77,7 @@ export function NewScenario() {
                 having a premonition about:
               </p>
               <Textarea
-                className="text-black h-32 w-full resize-both"
+                className="h-32 w-full resize-both"
                 placeholder="Describe the world ending event..."
                 value={hook.worldEndingEvent}
                 onChange={(ev) => hook.setWorldEndingEvent(ev.target.value)}

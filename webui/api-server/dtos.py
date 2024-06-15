@@ -2,6 +2,9 @@ from typing import Literal, List
 
 from pydantic import BaseModel, Field
 
+from worldender.models.choice import Choice
+from worldender.models.location import Location
+from worldender.models.outcome import Outcome
 from worldender.models.player import Player
 from worldender.models.world_ender import WorldEnder
 from worldender.models.event import Event
@@ -27,8 +30,3 @@ class NewScenarioRequest(BaseModel):
 class NewScenarioResponse(BaseModel):
     slug: str
     result: Literal["success", "failure"]
-
-
-class Choice(BaseModel):
-    choice: str
-    predefined_index: int | None

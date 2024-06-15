@@ -5,6 +5,11 @@
   "repository": "https://github.com/keppy/WorldEnder.ai.git",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start:api": "poetry run fastapi dev api-server/main.py --port 8080",
+    "start:frontend": "yarn workspace website dev",
+    "start:all": "run-p start:api start:frontend"
+  },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
   },

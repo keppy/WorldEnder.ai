@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { HomeIcon } from "@radix-ui/react-icons";
 import { useScenarioState } from "./useScenarioState";
+import { Overlay } from "../ui/overlay";
 
 interface Props {
   slug: string;
@@ -34,8 +35,8 @@ const constructQuery = (evenDescription: string, choice: string) => {
   return `
     ${evenDescription},
     you observed these hardships on the world and decided to
-    ${choice}`;
-}
+    ${choice}. What happens next?`;
+};
 
 const DisplayScenarioState = (hook: ReturnType<typeof useScenarioState>) => {
   if (!hook.data) {
@@ -48,12 +49,13 @@ const DisplayScenarioState = (hook: ReturnType<typeof useScenarioState>) => {
     display = hook.data.last_event.description;
   }
   return display;
-}
+};
 
 export const ScenarioState: React.FC<Props> = ({ slug }) => {
   const hook = useScenarioState(slug);
+  console.log(JSON.stringify({ isLoading: hook.isLoading }));
   return (
-    <div className="flex min-h-screen flex-col bg-gray-950 text-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-950 text-gray-50 relative">
       <Link
         href="/"
         className="m-4 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors self-start"
@@ -63,13 +65,13 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
       </Link>
       <div className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20 flex flex-wrap items-center">
         <div className="space-y-8 flex-1 mr-8">
-          <div className="text-xl space-y-4 flex-1">
+          <div className="text-xl space-y-4 flex-1 min-w-[360px] mb-8">
             {DisplayScenarioState(hook)}
           </div>
         </div>
         <img
           alt="Image"
-          className="min-w-[360px] rounded-lg object-cover"
+          className="min-w-[360px] rounded-lg object-cover self-start"
           height={360}
           src="/we_hero.png"
           style={{
@@ -154,6 +156,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
           </Button>
         </div>
       </section>
+      {hook.isLoading && (
+        <Overlay>
+          <div className="space-y-8">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
+              You have decided to take action!
+            </h2>
+          </div>
+        </Overlay>
+      )}
     </div>
   );
 };
