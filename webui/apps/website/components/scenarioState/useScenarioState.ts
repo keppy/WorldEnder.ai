@@ -3,9 +3,12 @@ import {
   getScenarioUri,
   isFetchError,
   postScenarioChooseUri,
+  postScenarioTickUri,
   useBaseGet,
 } from "@/lib/apiServer";
+import { config } from "@/lib/config";
 import { Choice, Scenario } from "@/lib/dtos";
+import { useInterval } from "@/lib/hooks";
 import React from "react";
 
 export function useScenarioState(slug: string) {
@@ -46,6 +49,18 @@ export function useScenarioState(slug: string) {
     },
     [chooseIdea]
   );
+
+  const pingTick = React.useCallback(async () => {
+    console.log("pingTick");
+    const response = await basePost<unknown, Scenario>(
+      postScenarioTickUri(slug),
+      {}
+    );
+    dataHook.mutate(response);
+  }, [dataHook, slug]);
+
+  useInterval(pingTick, config.pingInterval);
+
   return React.useMemo(
     () => ({
       data: dataHook.data,
