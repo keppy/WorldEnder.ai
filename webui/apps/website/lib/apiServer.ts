@@ -5,6 +5,8 @@ export const postScenarioNewUri = () => "/scenario/new";
 export const getScenarioUri = (id: string) => `/scenario/${id}`;
 export const postScenarioChooseUri = (id: string) => `/scenario/${id}/choose`;
 export const postScenarioTickUri = (id: string) => `/scenario/${id}/tick`;
+export const postGamePlan = (id: string) => `/gameplan/${id}`;
+export const postQuestion = (id: string) => `/question/${id}`;
 
 interface ApiErrorBody {
   message: string;

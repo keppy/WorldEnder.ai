@@ -5,9 +5,11 @@ import {
   postScenarioChooseUri,
   postScenarioTickUri,
   useBaseGet,
+  postGamePlan,
+  postQuestion,
 } from "@/lib/apiServer";
 import { config } from "@/lib/config";
-import { Choice, Scenario } from "@/lib/dtos";
+import { Choice, Scenario, GamePlan, QuestionResponse, Question} from "@/lib/dtos";
 import { useInterval } from "@/lib/hooks";
 import React from "react";
 
@@ -40,15 +42,35 @@ export function useScenarioState(slug: string) {
     },
     [dataHook, slug]
   );
+
   const handleBetterIdea = React.useCallback(async () => {
     chooseIdea(betterIdea);
   }, [betterIdea, chooseIdea]);
+ 
   const handleAction = React.useCallback(
     async (action: string) => {
       chooseIdea(action);
     },
     [chooseIdea]
   );
+
+  const handleGamePlan = React.useCallback(async () => {
+    const response = await basePost<unknown, GamePlan>(
+      postGamePlan(slug),
+      {}
+    );
+    dataHook.mutate(response);
+  }, [dataHook, slug]
+);
+
+  const handleQuestion = React.useCallback(async () => {
+    const response = await basePost<Question, GamePlan>(
+      postQuestion(slug),
+      {text: betterIdea}
+    );
+    dataHook.mutate(response);
+  }, [dataHook, slug]
+);
 
   const pingTick = React.useCallback(async () => {
     console.log("pingTick");
@@ -69,6 +91,8 @@ export function useScenarioState(slug: string) {
       setBetterIdea,
       handleBetterIdea,
       handleAction,
+      handleGamePlan,
+      handleQuestion,
     }),
     [
       dataHook.data,
@@ -77,6 +101,8 @@ export function useScenarioState(slug: string) {
       betterIdea,
       handleBetterIdea,
       handleAction,
+      handleGamePlan,
+      handleQuestion,
     ]
   );
 }
