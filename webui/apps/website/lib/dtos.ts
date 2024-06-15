@@ -43,6 +43,19 @@ export interface Event {
   possible_choices: Choice[];
 }
 /**
+ * A plan of action
+ */
+export interface GamePlan {
+  /**
+   * A list of hints to help the player, these hints would make good queries for figuring out the game plan's goal
+   */
+  query_hints: string[];
+  /**
+   * The goal of the game plan, the thing the player needs to find to progress the game
+   */
+  goal: string;
+}
+/**
  * A location with a latitude and longitude.
  * Parent and children are used to create a tree structure.
  * The destroyed flag is used to mark a location as destroyed.
@@ -90,6 +103,19 @@ export interface Outcome {
   description: string;
 }
 export interface Player {}
+/**
+ * A response to a question about the world ending event. There is a correct question to ask that will reveal hidden information in the game.
+ */
+export interface QuestionResponse {
+  /**
+   * Indicate if this was the correct question to ask
+   */
+  correct_question: boolean;
+  /**
+   * The response to the question
+   */
+  response: string;
+}
 export interface Scenario {
   slug: string;
   world: World;

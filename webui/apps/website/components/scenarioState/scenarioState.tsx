@@ -66,10 +66,10 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         </Link>
         <div className="flex flex-col ">
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`${hook.data?.world.day} days have passed.`}
+            {`${hook.data?.world?.day} days have passed.`}
           </div>
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`The world population is ${hook.data?.world.population?.toLocaleString()}.`}
+            {`The world population is ${hook.data?.world?.population?.toLocaleString()}.`}
           </div>
         </div>
       </div>
@@ -91,6 +91,7 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
           width={360}
         />
       </div>
+      {!hook.data?.last_world_ender && (
       <section className="bg-gray-900 py-12 md:py-16 lg:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="space-y-8">
@@ -150,18 +151,21 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
           </div>
         </div>
       </section>
+      )}
+      <section className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20">
+        <div className="space-y-8">
+          <>{hook.data?.question_response?.response}</>
+        </div>
+      </section>
       <section className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20">
         <div className="grid gap-4">
-          <Label htmlFor="message" className="text-3xl">
-            or...
-          </Label>
           <Textarea
             id="message"
-            placeholder="you have a better idea."
+            placeholder="Ask questions to discover solutions with the AI..."
             value={hook.betterIdea}
             onChange={(ev) => hook.setBetterIdea(ev.target.value)}
           />
-          <Button className="w-full" onClick={hook.handleBetterIdea}>
+          <Button className="w-full" onClick={hook.handleQuestion}>
             Submit
           </Button>
         </div>
@@ -177,10 +181,10 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         </Link>
         <div className="flex flex-col ">
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`${hook.data?.world.day} days have passed.`}
+            {`${hook.data?.world?.day} days have passed.`}
           </div>
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`The world population is ${hook.data?.world.population}.`}
+            {`The world population is ${hook.data?.world?.population}.`}
           </div>
         </div>
       </div>
@@ -190,6 +194,18 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
               You have decided to take action!
             </h2>
+          </div>
+        </Overlay>
+      )}
+      {hook.data?.question_response?.correct_question && (
+        <Overlay>
+          <div className="space-y-8">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
+              You have asked the right question! You WIN!
+            </h2>
+            <h3 className="text-2xl font-bold">
+              Only {8019876189 - hook.data?.world.population} humans died!
+            </h3>
           </div>
         </Overlay>
       )}

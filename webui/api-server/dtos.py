@@ -9,6 +9,8 @@ from worldender.models.player import Player
 from worldender.models.world_ender import WorldEnder
 from worldender.models.event import Event
 from worldender.models.world import World
+from worldender.models.question_response import QuestionResponse
+from worldender.models.game_plan import GamePlan
 
 
 class Scenario(BaseModel):
@@ -19,6 +21,7 @@ class Scenario(BaseModel):
     last_world_ender: WorldEnder | None
     events: List[Event] = Field(default_factory=list)
     world_enders: List[WorldEnder] = Field(default_factory=list)
+    question_response: QuestionResponse | None
 
 
 class NewScenarioRequest(BaseModel):
