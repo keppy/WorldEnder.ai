@@ -6,6 +6,11 @@
 */
 
 /**
+ * Enumeration representing the types of queries that can be asked to a question answer system.
+ */
+export type QueryType = "SINGLE" | "MERGE_MULTIPLE_RESPONSES";
+
+/**
  * Choice is a possible choice to make in response to an Event
  * This choice will have an impact on the world and how the story progresses
  * It could lead to the world ending sooner, or later
@@ -90,6 +95,39 @@ export interface Outcome {
   description: string;
 }
 export interface Player {}
+/**
+ * Container class representing a tree of questions to ask a question answer system.
+ * and its dependencies. Make sure every question is in the tree, and every question is asked only once.
+ */
+export interface QueryPlan {
+  /**
+   * The original question we are asking
+   */
+  query_graph: Query[];
+}
+/**
+ * Class representing a single question in a question answer subquery.
+ * Can be either a single question or a multi question merge.
+ */
+export interface Query {
+  /**
+   * Unique id of the query
+   */
+  id: number;
+  /**
+   * Question we are asking using a question answer system, if we are asking multiple questions, this question is asked by also providing the answers to the sub questions
+   */
+  question: string;
+  /**
+   * List of sub questions that need to be answered before we can ask the question. Use a subquery when anything may be unknown, and we need to ask multiple questions to get the answer. Dependences must only be other queries.
+   */
+  dependancies?: number[];
+  /**
+   * Type of question we are asking, either a single question or a multi question merge when there are multiple questions
+   */
+  node_type?: QueryType & string;
+  [k: string]: unknown;
+}
 export interface Scenario {
   slug: string;
   world: World;
@@ -98,6 +136,7 @@ export interface Scenario {
   last_world_ender: WorldEnder | null;
   events?: Event[];
   world_enders?: WorldEnder[];
+  query_plan: QueryPlan | null;
 }
 /**
  * World for the WorldEnder.ai game.
@@ -146,4 +185,11 @@ export interface WorldEnder {
    * The percentage chance that any humans will survive the world ending event
    */
   survival_rate: number;
+  /**
+   * Three choices you could take to try and combat the world ending event
+   *
+   * @minItems 3
+   * @maxItems 3
+   */
+  choices: [string, string, string];
 }

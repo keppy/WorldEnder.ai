@@ -1,5 +1,6 @@
 import logging
 from dotenv import load_dotenv
+from worldender.planners.query import query_planner
 
 load_dotenv()
 
@@ -59,6 +60,7 @@ async def new_scenario(scenario_init: NewScenarioRequest) -> NewScenarioResponse
         player=Player(name=scenario_init.player_name, city=scenario_init.city),
         last_event=None,
         last_world_ender=None,
+        query_plan=None,
     )
     event = await next_event(
         f"{scenario_init.city},  {scenario_init.scenario}", aclient
@@ -84,6 +86,8 @@ async def choose(scenario_id: str, choice: Choice):
     logger.info(f"Got WorldEnder: {world_ender}")
     scenario.last_world_ender = world_ender
     scenario.world_enders.append(world_ender)
+    plan = query_planner(world_ender.description)
+    scenario.query_plan = plan
     await store_scenario(scenario_id, scenario)
     return scenario
 

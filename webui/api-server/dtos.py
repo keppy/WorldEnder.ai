@@ -9,6 +9,7 @@ from worldender.models.player import Player
 from worldender.models.world_ender import WorldEnder
 from worldender.models.event import Event
 from worldender.models.world import World
+from worldender.planners.query import QueryPlan
 
 
 class Scenario(BaseModel):
@@ -19,6 +20,7 @@ class Scenario(BaseModel):
     last_world_ender: WorldEnder | None
     events: List[Event] = Field(default_factory=list)
     world_enders: List[WorldEnder] = Field(default_factory=list)
+    query_plan: QueryPlan | None
 
 
 class NewScenarioRequest(BaseModel):

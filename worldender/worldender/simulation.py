@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import instructor
 import openai
+from worldender.planners.query import QueryPlan, query_planner
 
 from .models.event import Event
 from .models.world_ender import WorldEnder
@@ -57,3 +58,9 @@ async def next_world_ender(query: str, aclient: openai.Client) -> Event:
         ],
         max_retries=3,
     )
+
+async def get_multiple_choice(description: str) -> QueryPlan:
+    """
+    This function calls the OpenAI API to generate the possible actions based on the description of the world ender event.
+    """
+    return query_planner(description, plan=False)

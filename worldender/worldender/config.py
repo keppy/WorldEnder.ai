@@ -8,6 +8,6 @@ class AppConfig(BaseModel):
 
 
 app_config = AppConfig(
-    llm_model=os.environ.get("LLM_MODEL", "gpt-4-turbo"),
-    llm_temp=float(os.environ.get("LLM_TEMP", 0.2)),
+    llm_model=os.environ.get("LLM_MODEL", "gpt-4o"),
+    llm_temp=float(os.environ.get("LLM_TEMP", 0.85)),
 )

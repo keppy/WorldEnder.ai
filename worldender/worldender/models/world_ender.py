@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel, Field
 
 class WorldEnder(BaseModel):
@@ -10,6 +11,7 @@ class WorldEnder(BaseModel):
     description: str = Field(description="A detailed description of what happened, including the Events and Outcomes involved")
     death_toll: str = Field(description="The total estimated cost of human life as a readable number example: 1bil")
     survival_rate: float = Field(description="The percentage chance that any humans will survive the world ending event", ge=0.0, le=1.0)
+    choices: List[str] = Field(description="Three choices you could take to try and combat the world ending event", min_items=3, max_items=3)
 
     def report(self):
         dct = self.model_dump()
