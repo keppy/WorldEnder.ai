@@ -9,18 +9,19 @@ import { Choice, Scenario } from "@/lib/dtos";
 import React from "react";
 
 export function useScenarioState(slug: string) {
+  const [isChoosing, setIsChoosing] = React.useState(false);
   const dataHook = useBaseGet<Scenario>(getScenarioUri(slug));
   //   console.log(JSON.stringify({ dataHook }));
   const [betterIdea, setBetterIdea] = React.useState("");
   const chooseIdea = React.useCallback(
     async (idea: string) => {
       try {
+        setIsChoosing(true);
         const response = await basePost<Choice, Scenario>(
           postScenarioChooseUri(slug),
           {
             choice: idea,
             consequence: "",
-            predefined_index: 0,
           }
         );
         console.log(JSON.stringify({ response }));
@@ -30,6 +31,8 @@ export function useScenarioState(slug: string) {
         if (isFetchError(e)) {
           // TODO : toast!
         }
+      } finally {
+        setIsChoosing(false);
       }
     },
     [dataHook, slug]
@@ -46,11 +49,19 @@ export function useScenarioState(slug: string) {
   return React.useMemo(
     () => ({
       data: dataHook.data,
+      isLoading: isChoosing || dataHook.isLoading,
       betterIdea,
       setBetterIdea,
       handleBetterIdea,
       handleAction,
     }),
-    [betterIdea, dataHook.data, handleAction, handleBetterIdea]
+    [
+      dataHook.data,
+      dataHook.isLoading,
+      isChoosing,
+      betterIdea,
+      handleBetterIdea,
+      handleAction,
+    ]
   );
 }

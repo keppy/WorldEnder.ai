@@ -60,7 +60,9 @@ async def new_scenario(scenario_init: NewScenarioRequest) -> NewScenarioResponse
         last_event=None,
         last_world_ender=None,
     )
-    event = await next_event(f"{scenario_init.city},  {scenario_init.scenario}", aclient)
+    event = await next_event(
+        f"{scenario_init.city},  {scenario_init.scenario}", aclient
+    )
     logger.info(f"Got event: {event}")
     scenario.last_event = event
     scenario.events.append(event)
@@ -77,7 +79,7 @@ async def get_scenario(scenario_id: str):
 @app.post("/scenario/{scenario_id}/choose", response_model=Scenario)
 async def choose(scenario_id: str, choice: Choice):
     scenario = await fetch_scenario(scenario_id)
-    logger.info(f"Choosing {choice} for scenario {scenario_id}")
+    logger.info(f"Choosing {choice.choice[:10]} for scenario {scenario_id}")
     world_ender: WorldEnder = await next_world_ender(choice.choice, aclient)
     logger.info(f"Got WorldEnder: {world_ender}")
     scenario.last_world_ender = world_ender
