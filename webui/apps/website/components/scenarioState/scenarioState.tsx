@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { HomeIcon } from "@radix-ui/react-icons";
+import { ArrowUpIcon, HomeIcon } from "@radix-ui/react-icons";
 import { useScenarioState } from "./useScenarioState";
 import { Overlay } from "../ui/overlay";
 
@@ -56,13 +56,23 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
   console.log(JSON.stringify({ isLoading: hook.isLoading }));
   return (
     <div className="flex min-h-screen flex-col bg-gray-950 text-gray-50 relative">
-      <Link
-        href="/"
-        className="m-4 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors self-start"
-        prefetch={false}
-      >
-        <HomeIcon className="w-6 h-6 text-gray-900 dark:text-gray-100" />
-      </Link>
+      <div className="flex items-center justify-between p-4">
+        <Link
+          href="/"
+          className="m-4 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors self-start"
+          prefetch={false}
+        >
+          <HomeIcon className="w-6 h-6 text-gray-900 dark:text-gray-100" />
+        </Link>
+        <div className="flex flex-col ">
+          <div className="text-xl space-y-4 min-w-[360px]">
+            {`${hook.data?.world.day} days have passed.`}
+          </div>
+          <div className="text-xl space-y-4 min-w-[360px]">
+            {`The world population is ${hook.data?.world.population?.toLocaleString()}.`}
+          </div>
+        </div>
+      </div>
       <div className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20 flex flex-wrap items-center">
         <div className="space-y-8 flex-1 mr-8">
           <div className="text-xl space-y-4 flex-1 min-w-[360px] mb-8">
@@ -156,6 +166,24 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
           </Button>
         </div>
       </section>
+      <div className="flex items-center justify-between p-4">
+        <Link
+          href="#"
+          className="m-4 p-4 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors self-start"
+          prefetch={false}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <ArrowUpIcon className="w-6 h-6 text-gray-900 dark:text-gray-100" />
+        </Link>
+        <div className="flex flex-col ">
+          <div className="text-xl space-y-4 min-w-[360px]">
+            {`${hook.data?.world.day} days have passed.`}
+          </div>
+          <div className="text-xl space-y-4 min-w-[360px]">
+            {`The world population is ${hook.data?.world.population}.`}
+          </div>
+        </div>
+      </div>
       {hook.isLoading && (
         <Overlay>
           <div className="space-y-8">
