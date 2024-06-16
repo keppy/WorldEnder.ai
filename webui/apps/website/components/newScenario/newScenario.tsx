@@ -63,7 +63,7 @@ export function NewScenario() {
         ) : (
           <div className="mx-auto w-full max-w-md space-y-6">
             <img
-              src="/placeholder.svg"
+              src="/dude.png"
               width="800"
               height="450"
               alt="Hero"

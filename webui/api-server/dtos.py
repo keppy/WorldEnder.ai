@@ -22,6 +22,8 @@ class Scenario(BaseModel):
     events: List[Event] = Field(default_factory=list)
     world_enders: List[WorldEnder] = Field(default_factory=list)
     question_response: QuestionResponse | None
+    final_population: int | None
+    Outcome: Outcome | None
 
 
 class NewScenarioRequest(BaseModel):

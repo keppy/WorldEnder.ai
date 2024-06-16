@@ -51,6 +51,10 @@ const DisplayScenarioState = (hook: ReturnType<typeof useScenarioState>) => {
   return display;
 };
 
+const final_population = (wordPopulation: number) => {
+  return (8019876189 - wordPopulation).toLocaleString();
+}
+
 export const ScenarioState: React.FC<Props> = ({ slug }) => {
   const hook = useScenarioState(slug);
   console.log(JSON.stringify({ isLoading: hook.isLoading }));
@@ -66,10 +70,10 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         </Link>
         <div className="flex flex-col ">
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`${hook.data?.world?.day} days have passed.`}
+            <span className="text-red-300">{hook.data?.world?.day}</span> days have passed.
           </div>
           <div className="text-xl space-y-4 min-w-[360px]">
-            {`The world population is ${hook.data?.world?.population?.toLocaleString()}.`}
+            The world population is <span className="text-yellow-400">{hook.data?.world?.population?.toLocaleString()}</span>.
           </div>
         </div>
       </div>
@@ -83,7 +87,7 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
           alt="Image"
           className="min-w-[360px] rounded-lg object-cover self-start"
           height={360}
-          src="/we_hero.png"
+          src="/kkilder.png"
           style={{
             aspectRatio: "360/360",
             objectFit: "cover",
@@ -201,10 +205,10 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         <Overlay>
           <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
-              You have asked the right question! You WIN!
+              You have asked the right question! You <span className="text-green-500">WIN!</span>
             </h2>
             <h3 className="text-2xl font-bold">
-              Only {8019876189 - hook.data?.world.population} humans died!
+              Only <span className="text-green-500">{final_population(hook.data?.final_population)}</span> humans died!
             </h3>
           </div>
         </Overlay>

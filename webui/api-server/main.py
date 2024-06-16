@@ -63,6 +63,8 @@ async def new_scenario(scenario_init: NewScenarioRequest) -> NewScenarioResponse
         last_event=None,
         last_world_ender=None,
         question_response=None,
+        final_population=None,
+        Outcome=None,
     )
     event = await next_event(
         f"{scenario_init.city},  {scenario_init.scenario}", aclient
@@ -114,6 +116,8 @@ async def post_ask_question(scenario_id: str, data: Question) -> QuestionRespons
     logger.info(f"Asking question {data.text} for scenario {scenario_id}")
     question_response = await ask_question(data.text, aclient, scenario.last_world_ender)
     logger.info(f"Got question response: {question_response}")
+    if question_response.correct_question:
+        scenario.final_population = scenario.world.population
     scenario.question_response = question_response
     await store_scenario(scenario_id, scenario)
     return question_response
