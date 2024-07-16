@@ -5,18 +5,18 @@ from .choice import Choice
 
 class Event(BaseModel):
     """
-    Event is a possilbe World Ending event, with a list of possible outcomes
+    Event is a possible World Ending event, with a list of possible outcomes
     country and city fields should represent a real location
     """
 
     country: str = Field(
-        description="The country where the apocolyptic event is happening"
+        description="The country where the apocalyptic event is happening"
     )
     city: str = Field(
-        description="The city where the predicted pivitol event is happening"
+        description="The city where the predicted pivotal event is happening"
     )
     description: str = Field(
-        description="A two to three sentance description of the event and its outcome"
+        description="A two to three sentence description of the event and its outcome"
     )
     possible_choices: List[Choice] = Field(
         description="Three possible choices to take in reaction to this event, which will dictate the next event in the world"
