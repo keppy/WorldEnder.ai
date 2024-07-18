@@ -43,4 +43,6 @@ class GameMaster(BaseModel):
     cot: str = Field(
         "chain of thought", description="The chain of thought that led to the decision"
     )
-    actions: Union[Move,] = Field(description="The actions that the player can take")
+    action: Union[Move, Build, Research, Warfare] = Field(
+        description="The action that the player can take"
+    )
