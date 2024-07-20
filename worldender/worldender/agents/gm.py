@@ -1,3 +1,4 @@
+import random
 from pydantic import BaseModel, Field
 from typing import List, Union
 
@@ -46,3 +47,16 @@ class GameMaster(BaseModel):
     action: Union[Move, Build, Research, Warfare] = Field(
         description="The action that the player can take"
     )
+
+    def roll_d_20(self):
+        """
+        roll_d_20 rolls a 20 sided die to determine the outcome of the action
+        """
+        return random.randint(1, 20)
+
+
+SCENARIO_PROMPT = "Make up a scenario that the player must face and react to in response to the action they took"
+CHALLENGE_PROMPT = (
+    "Make up a challenge for the player that they must roll a d20 to overcome"
+)
+OUTCOME_PROMPT = "Make up an outcome for the player based on the scenario they faced, the action they took, and the challenge they faced"
