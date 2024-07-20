@@ -9,9 +9,9 @@ from prompt_toolkit.layout.containers import HSplit, VSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.layout.layout import Layout
 from prompt_toolkit.styles import Style
-from prompt_toolkit.widgets import SearchToolbar, TextArea
+from prompt_toolkit.widgets import TextArea
 
-from player import Player
+from worldender.models.player import Player
 
 help_text = """
 (Press Control-C to exit)
