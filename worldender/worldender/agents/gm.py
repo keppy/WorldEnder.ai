@@ -16,7 +16,9 @@ class Build(BaseModel):
     Build is a possible action that the player can take
     """
 
-    building: str = Field(description="The name of the building")
+    building: str = Field(
+        description="The description of the building including the type and name"
+    )
 
 
 class Research(BaseModel):
@@ -24,15 +26,9 @@ class Research(BaseModel):
     Research is a possible action that the player can take
     """
 
-    research: str = Field(description="The name of the type of research")
-
-
-class Warfare(BaseModel):
-    """
-    Warfare is a possible action that the player can take
-    """
-
-    warfare: str = Field(description="The name of the type of warfare")
+    research: str = Field(
+        description="The description of the research including the field and name"
+    )
 
 
 class GameMaster(BaseModel):
@@ -44,7 +40,7 @@ class GameMaster(BaseModel):
     cot: str = Field(
         "chain of thought", description="The chain of thought that led to the decision"
     )
-    action: Union[Move, Build, Research, Warfare] = Field(
+    action: Union[Move, Build, Research] = Field(
         description="The action that the player can take"
     )
 
@@ -55,8 +51,8 @@ class GameMaster(BaseModel):
         return random.randint(1, 20)
 
 
-SCENARIO_PROMPT = "Make up a scenario that the player must face and react to in response to the action they took"
-CHALLENGE_PROMPT = (
-    "Make up a challenge for the player that they must roll a d20 to overcome"
-)
-OUTCOME_PROMPT = "Make up an outcome for the player based on the scenario they faced, the action they took, and the challenge they faced"
+def build_query(s: str) -> str:
+    """
+    build_query takes a string and returns a query string
+    """
+    return f"The player is sending you a query. You are the game master. The query is: {s}. Pick the correct action to return and give good reasoning why."

@@ -2,6 +2,7 @@ from typing import Literal, List
 
 from pydantic import BaseModel, Field
 
+from worldender.agents.gm import GameMaster
 from worldender.models.choice import Choice
 from worldender.models.location import Location
 from worldender.models.outcome import Outcome
@@ -35,3 +36,11 @@ class NewScenarioRequest(BaseModel):
 class NewScenarioResponse(BaseModel):
     slug: str
     result: Literal["success", "failure"]
+
+
+class GMResponse(BaseModel):
+    game_master: GameMaster
+
+
+class GMRequest(BaseModel):
+    query: str

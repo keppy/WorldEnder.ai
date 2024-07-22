@@ -1,5 +1,6 @@
 import logging
 from dotenv import load_dotenv
+from worldender.agents.gm import GameMaster, Move
 from worldender.models.game_plan import GamePlan
 from worldender.models.question import Question
 from worldender.models.question_response import QuestionResponse
@@ -18,9 +19,12 @@ from worldender.simulation import (
     get_game_plan,
     next_event,
     next_world_ender,
+    query_gm,
 )
 from .dtos import (
     Choice,
+    GMResponse,
+    GMRequest,
     NewScenarioRequest,
     NewScenarioResponse,
     Event,
@@ -56,6 +60,12 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "Hello WorldEnder!"}
+
+
+@app.post("/gm/query", response_model=GMResponse)
+async def gm_query(data: GMRequest) -> GMResponse:
+    gm = query_gm(data.query, gm)
+    return GMResponse(game_master=gm)
 
 
 @app.post("/scenario/new", response_model=NewScenarioResponse)

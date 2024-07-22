@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import instructor
 import openai
+from worldender.agents.gm import GameMaster
 from worldender.models.game_plan import GamePlan
 from worldender.models.question_response import QuestionResponse
 
@@ -16,8 +17,27 @@ def getContext(url: str) -> str:
     html_content = urlopen(url)
     soup = BeautifulSoup(html_content, "html.parser")
     sorted_stripped_and_deduped = list(dict.fromkeys(soup.stripped_strings))
-    context = str.join(", ",sorted_stripped_and_deduped)
+    context = str.join(", ", sorted_stripped_and_deduped)
     return context
+
+
+async def query_gm(query: str, aclient: openai.Client) -> GameMaster:
+    cfg = app_config
+    print(f"calling llm: {query}")
+    return await aclient.chat.completions.create(
+        model=cfg.llm_model,
+        temperature=cfg.llm_temp,
+        response_model=GameMaster,
+        messages=[
+            {
+                "role": "system",
+                "content": f"You are a game master for the RPG WorldEnder.ai. You must explain your chain of thought and return the correct action to take in response to the player's query.",
+            },
+            {"role": "user", "content": f"{query}"},
+        ],
+        max_retries=3,
+    )
+
 
 async def next_event(player_choice: str, aclient: openai.Client) -> Event:
     """
@@ -36,10 +56,14 @@ async def next_event(player_choice: str, aclient: openai.Client) -> Event:
                 "role": "system",
                 "content": f"You are WorldEnder.ai, the date is {date.today()}, you work with a human to predict the World Ender event/events. Use real locations for cities and countries.",
             },
-            {"role": "user", "content": f"{player_choice} using this as context: {getContext(context_url)}"},
+            {
+                "role": "user",
+                "content": f"{player_choice} using this as context: {getContext(context_url)}",
+            },
         ],
         max_retries=3,
     )
+
 
 async def next_world_ender(query: str, aclient: openai.Client) -> Event:
     cfg = app_config
@@ -55,13 +79,17 @@ async def next_world_ender(query: str, aclient: openai.Client) -> Event:
                 "role": "system",
                 "content": f"You are WorldEnder.ai, the date is {date.today()}, return a detailed description of how this world ends and how humans continue existing. death_toll and survival_rate properties should be logical according to the way the world is ending.",
             },
-            {"role": "user", "content": f"{query} using this context:{getContext(context_url)}"},
+            {
+                "role": "user",
+                "content": f"{query} using this context:{getContext(context_url)}",
+            },
         ],
         max_retries=3,
     )
 
+
 async def get_game_plan(query: str, aclient: openai.Client) -> GamePlan:
-    cfg = app_config   
+    cfg = app_config
     print(f"calling llm: {query}")
     return await aclient.chat.completions.create(
         model=cfg.llm_model,
@@ -70,14 +98,17 @@ async def get_game_plan(query: str, aclient: openai.Client) -> GamePlan:
         messages=[
             {
                 "role": "system",
-                "content": f"You are a game planning system. For the decribed scenario, please provide a goal--a piece of information that the player needs to find to progress the game. This could be hidden information, the name of a new disease, or some other secret information or scientific discovery.",
+                "content": f"You are a game planning system. For the described scenario, please provide a goal--a piece of information that the player needs to find to progress the game. This could be hidden information, the name of a new disease, or some other secret information or scientific discovery.",
             },
             {"role": "user", "content": f"{query}"},
         ],
         max_retries=3,
     )
 
-async def ask_question(query: str, aclient: openai.Client, world_ender: WorldEnder) -> QuestionResponse:
+
+async def ask_question(
+    query: str, aclient: openai.Client, world_ender: WorldEnder
+) -> QuestionResponse:
     cfg = app_config
     print(f"calling llm: {query}")
     return await aclient.chat.completions.create(
@@ -89,7 +120,10 @@ async def ask_question(query: str, aclient: openai.Client, world_ender: WorldEnd
                 "role": "system",
                 "content": f"You are a game master for the RPG WorldEnder.ai. The player will ask you questions and you know the right answer. The player loses points when they ask the wrong questions. Guide the player towards figuring out the answers they seek, but don't give it away too easily.",
             },
-            {"role": "user", "content": f"{query}, using this context: {world_ender.description}"},
+            {
+                "role": "user",
+                "content": f"{query}, using this context: {world_ender.description}",
+            },
         ],
         max_retries=3,
     )
