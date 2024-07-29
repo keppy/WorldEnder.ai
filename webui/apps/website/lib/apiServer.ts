@@ -7,10 +7,18 @@ export const postScenarioChooseUri = (id: string) => `/scenario/${id}/choose`;
 export const postScenarioTickUri = (id: string) => `/scenario/${id}/tick`;
 export const postGamePlan = (id: string) => `/gameplan/${id}`;
 export const postQuestion = (id: string) => `/question/${id}`;
+export const postIllustrationNewUri = () => "/illustration/new";
+export const getIllustrationUri = (id: string) => `/illustration/${id}`;
+export const getIllustrationImageUri = (id: string) =>
+  `/illustration/${id}/image`;
 
 interface ApiErrorBody {
   message: string;
   details?: Record<string, unknown>;
+}
+
+export function getFullUri(uri: string) {
+  return `${config.apiServer}${uri}`;
 }
 
 export class FetchError extends Error {

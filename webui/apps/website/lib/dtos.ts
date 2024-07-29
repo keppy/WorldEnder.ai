@@ -55,6 +55,13 @@ export interface GamePlan {
    */
   goal: string;
 }
+export interface Illustration {
+  prompt: string;
+  negative_prompt: string;
+  aspect_ratio: string;
+  image_path: string;
+  progress?: "none" | "inprogress" | "complete" | "failed";
+}
 /**
  * A location with a latitude and longitude.
  * Parent and children are used to create a tree structure.
@@ -81,6 +88,15 @@ export interface Location {
    * Whether the location is destroyed
    */
   destroyed?: boolean;
+}
+export interface NewIllustrationRequest {
+  prompt: string;
+  negative_prompt: string;
+  aspect_ratio: string;
+}
+export interface NewIllustrationResponse {
+  id: string;
+  result: Illustration;
 }
 export interface NewScenarioRequest {
   player_name: string;
@@ -124,6 +140,7 @@ export interface Scenario {
   last_world_ender: WorldEnder | null;
   events?: Event[];
   world_enders?: WorldEnder[];
+  question_response: QuestionResponse | null;
 }
 /**
  * World for the WorldEnder.ai game.

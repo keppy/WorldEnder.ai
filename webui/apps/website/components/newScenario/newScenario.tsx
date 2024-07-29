@@ -14,6 +14,7 @@ import Link from "next/link";
 import { HomeIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useNewScenario } from "./useNewScenario";
+import { Overlay } from "../ui/overlay";
 
 export function NewScenario() {
   const hook = useNewScenario();
@@ -32,33 +33,40 @@ export function NewScenario() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Begin the Ending...
             </h1>
-            <form className="space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Enter your name"
-                  value={hook.name}
-                  onChange={(ev) => hook.setName(ev.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="city">Starting City</Label>
-                <Input
-                  id="city"
-                  placeholder="Enter your starting city"
-                  value={hook.city}
-                  onChange={(ev) => hook.setCity(ev.target.value)}
-                />
-              </div>
-              <Button
-                onClick={hook.handleAccept}
-                className="w-full"
-                disabled={!hook.acceptEnabled}
-              >
-                Accept
-              </Button>
-            </form>
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                placeholder="Enter your name"
+                value={hook.name}
+                onChange={(ev) => hook.setName(ev.target.value)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="city">Starting City</Label>
+              <Input
+                id="city"
+                placeholder="Enter your starting city"
+                value={hook.city}
+                onChange={(ev) => hook.setCity(ev.target.value)}
+              />
+            </div>
+            <Button
+              onClick={hook.handleAccept}
+              className="w-full"
+              disabled={!hook.acceptEnabled}
+            >
+              Accept
+            </Button>
+            {hook.showOverlay && (
+              <Overlay>
+                <div className="space-y-8">
+                  <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
+                    It begins...
+                  </h2>
+                </div>
+              </Overlay>
+            )}
           </div>
         ) : (
           <div className="mx-auto w-full max-w-md space-y-6">
@@ -67,7 +75,7 @@ export function NewScenario() {
               width="800"
               height="450"
               alt="Hero"
-              className="mx-auto aspect-[16/9] w-full rounded-xl object-cover"
+              className="mx-auto aspect-[9/16] w-full rounded-xl object-cover"
             />
             <div className="space-y-4">
               <p>
