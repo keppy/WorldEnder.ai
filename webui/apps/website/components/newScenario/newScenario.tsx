@@ -71,7 +71,7 @@ export function NewScenario() {
         ) : (
           <div className="mx-auto w-full max-w-md space-y-6">
             <img
-              src="/dude.png"
+              src={hook.newHeroUri}
               width="800"
               height="450"
               alt="Hero"

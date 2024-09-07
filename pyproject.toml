@@ -33,6 +33,7 @@ python-dotenv = "^1.0.1"
 fastapi = "^0.111.0"
 motor = "^3.4.0"
 pymongo = "^4.7.3"
+fastapi-cors = "^0.0.6"
 
 [build-system]
 requires = ["poetry-core"]

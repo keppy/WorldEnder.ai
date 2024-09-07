@@ -21,26 +21,76 @@ export interface Choice {
   consequence: string;
 }
 /**
- * Event is a possilbe World Ending event, with a list of possible outcomes
+ * Event is a possible World Ending event, with a list of possible outcomes
  * country and city fields should represent a real location
  */
 export interface Event {
   /**
-   * The country where the apocolyptic event is happening
+   * The country where the apocalyptic event is happening
    */
   country: string;
   /**
-   * The city where the predicted pivitol event is happening
+   * The city where the predicted pivotal event is happening
    */
   city: string;
   /**
-   * A two to three sentance description of the event and its outcome
+   * A two to three sentence description of the event and its outcome
    */
   description: string;
   /**
    * Three possible choices to take in reaction to this event, which will dictate the next event in the world
    */
   possible_choices: Choice[];
+}
+export interface GMRequest {
+  query: string;
+}
+export interface GMResponse {
+  game_master: GameMaster;
+}
+/**
+ * GameMaster is the main class for the game master, who controls the game
+ * mainly, he controls what is done with the input from the player
+ */
+export interface GameMaster {
+  /**
+   * The chain of thought that led to the decision
+   */
+  cot?: string;
+  /**
+   * The action that the player can take
+   */
+  action: Move | Build | Research;
+}
+/**
+ * Move is a possible action that the player can take
+ */
+export interface Move {
+  /**
+   * The name of the destination city
+   */
+  destination: string;
+  [k: string]: unknown;
+}
+/**
+ * Build is a possible action that the player can take
+ */
+export interface Build {
+  /**
+   * The description of the building including the type and name
+   */
+  building: string;
+  [k: string]: unknown;
+}
+/**
+ * Research is a possible action that the player can take
+ */
+export interface Research {
+  /**
+   * The description of the research including the field and name
+   */
+  research: string;
+  [k: string]: unknown;
 }
 /**
  * A plan of action
@@ -141,6 +191,8 @@ export interface Scenario {
   events?: Event[];
   world_enders?: WorldEnder[];
   question_response: QuestionResponse | null;
+  final_population: number | null;
+  Outcome: Outcome | null;
 }
 /**
  * World for the WorldEnder.ai game.
@@ -168,8 +220,8 @@ export interface World {
   epoch?: "Apocalyptic" | "Post-Apocalyptic" | "Post-Post-Apocalyptic";
 }
 /**
- * An apocolyptic event that the human race, and likely the world, cannot come back from.
- * This will likely be a nuclear event. The consiquences will likely be long term fallout.
+ * An apocalyptic event that the human race, and likely the world, cannot come back from.
+ * This will likely be a nuclear event. The consequences will likely be long term fallout.
  * The class should tell the story of how we got here and why these things happened.
  */
 export interface WorldEnder {

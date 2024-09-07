@@ -15,8 +15,22 @@ A text-adventure RPG using structured outputs from LLMs as the backend to simula
 ## How to develop website
 
 ### install python deps
+
 ```
 poetry install --with api-server
+```
+
+### install next.js deps
+
+```
+cd webui
+yarn
+```
+
+### regenerate typescript DTO types from pydantic DTOs
+
+```
+poetry run python tools/pydantic2ts.py --module webui/api-server/dtos.py --output webui/apps/website/lib/dtos.ts --json2ts-cmd ./webui/node_modules/.bin/json2ts
 ```
 
 ### database
