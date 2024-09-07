@@ -52,6 +52,7 @@ export function useNewScenario() {
         status = r2.progress;
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
+      console.log("final status", status);
       setNewHeroUri(getFullUri(getIllustrationImageUri(response.id)));
     } catch (e) {
       console.error(e);

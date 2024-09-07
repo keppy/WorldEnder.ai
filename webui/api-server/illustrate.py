@@ -45,7 +45,7 @@ def gen_illustrate(
     negative_prompt="",
     aspect_ratio="1:1",
     output_format="png",
-) -> Illustration:
+) -> None:
     """
     someone else has created and stored the illustration. This
     code asynchronously requests the actual image from stability

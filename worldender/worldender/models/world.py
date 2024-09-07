@@ -43,7 +43,7 @@ class World(BaseModel):
             self.population
             - (
                 self.population
-                / math.max(math.log(self.population), 0.01)
+                / max(math.log(self.population), 0.01)
                 * self.log_multiplier
             )
         )
