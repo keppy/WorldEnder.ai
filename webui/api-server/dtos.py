@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 from worldender.agents.gm import GameMaster
 from worldender.models.choice import Choice
+from worldender.models.illustration import Illustration
 from worldender.models.location import Location
 from worldender.models.outcome import Outcome
 from worldender.models.player import Player
@@ -44,3 +45,14 @@ class GMResponse(BaseModel):
 
 class GMRequest(BaseModel):
     query: str
+
+
+class NewIllustrationRequest(BaseModel):
+    prompt: str
+    negative_prompt: str
+    aspect_ratio: str
+
+
+class NewIllustrationResponse(BaseModel):
+    id: str
+    result: Illustration

@@ -3,6 +3,7 @@ import hashlib
 import random
 import re
 import unicodedata
+import uuid
 from .dtos import NewScenarioRequest
 
 
@@ -17,6 +18,11 @@ def gen_scenario_id(req: NewScenarioRequest) -> tuple[str, str]:
     hash_slug = hashlib.sha256(slug.encode())
 
     return slug, hash_slug.hexdigest()[0:24]
+
+
+def gen_illustration_id() -> str:
+    # return guid in string form
+    return str(uuid.uuid4()).replace("-", "")[0:24]
 
 
 def get_id_from_slug(slug: str) -> str:

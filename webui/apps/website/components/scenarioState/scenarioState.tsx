@@ -53,7 +53,7 @@ const DisplayScenarioState = (hook: ReturnType<typeof useScenarioState>) => {
 
 const final_population = (wordPopulation: number) => {
   return (8019876189 - wordPopulation).toLocaleString();
-}
+};
 
 export const ScenarioState: React.FC<Props> = ({ slug }) => {
   const hook = useScenarioState(slug);
@@ -70,10 +70,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         </Link>
         <div className="flex flex-col ">
           <div className="text-xl space-y-4 min-w-[360px]">
-            <span className="text-red-300">{hook.data?.world?.day}</span> days have passed.
+            <span className="text-red-300">{hook.data?.world?.day}</span> days
+            have passed.
           </div>
           <div className="text-xl space-y-4 min-w-[360px]">
-            The world population is <span className="text-yellow-400">{hook.data?.world?.population?.toLocaleString()}</span>.
+            The world population is{" "}
+            <span className="text-yellow-400">
+              {hook.data?.world?.population?.toLocaleString()}
+            </span>
+            .
           </div>
         </div>
       </div>
@@ -96,65 +101,65 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         />
       </div>
       {!hook.data?.last_world_ender && (
-      <section className="bg-gray-900 py-12 md:py-16 lg:py-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
-              Take Action:
-            </h2>
-            <div className="grid gap-6 md:grid-cols-3">
-              <Link
-                className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
-                href="#"
-                onClick={() =>
-                  hook.handleAction(
-                    constructQuery(
-                      hook.data?.last_event?.description ?? "",
-                      hook.data?.last_event?.possible_choices[0].choice ?? ""
+        <section className="bg-gray-900 py-12 md:py-16 lg:py-20">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="space-y-8">
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
+                Take Action:
+              </h2>
+              <div className="grid gap-6 md:grid-cols-3">
+                <Link
+                  className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
+                  href="#"
+                  onClick={() =>
+                    hook.handleAction(
+                      constructQuery(
+                        hook.data?.last_event?.description ?? "",
+                        hook.data?.last_event?.possible_choices[0].choice ?? ""
+                      )
                     )
-                  )
-                }
-              >
-                <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_choices[0].choice}
-                </h3>
-              </Link>
-              <Link
-                className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
-                href="#"
-                onClick={() =>
-                  hook.handleAction(
-                    constructQuery(
-                      hook.data?.last_event?.description ?? "",
-                      hook.data?.last_event?.possible_choices[1].choice ?? ""
+                  }
+                >
+                  <h3 className="text-2xl font-bold">
+                    {hook.data?.last_event?.possible_choices[0].choice}
+                  </h3>
+                </Link>
+                <Link
+                  className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
+                  href="#"
+                  onClick={() =>
+                    hook.handleAction(
+                      constructQuery(
+                        hook.data?.last_event?.description ?? "",
+                        hook.data?.last_event?.possible_choices[1].choice ?? ""
+                      )
                     )
-                  )
-                }
-              >
-                <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_choices[1].choice}
-                </h3>
-              </Link>
-              <Link
-                className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
-                href="#"
-                onClick={() =>
-                  hook.handleAction(
-                    constructQuery(
-                      hook.data?.last_event?.description ?? "",
-                      hook.data?.last_event?.possible_choices[2].choice ?? ""
+                  }
+                >
+                  <h3 className="text-2xl font-bold">
+                    {hook.data?.last_event?.possible_choices[1].choice}
+                  </h3>
+                </Link>
+                <Link
+                  className="flex h-full flex-col rounded-lg border-[3px] border-white bg-gray-950 p-6 transition-all hover:bg-gray-800"
+                  href="#"
+                  onClick={() =>
+                    hook.handleAction(
+                      constructQuery(
+                        hook.data?.last_event?.description ?? "",
+                        hook.data?.last_event?.possible_choices[2].choice ?? ""
+                      )
                     )
-                  )
-                }
-              >
-                <h3 className="text-2xl font-bold">
-                  {hook.data?.last_event?.possible_choices[2].choice}
-                </h3>
-              </Link>
+                  }
+                >
+                  <h3 className="text-2xl font-bold">
+                    {hook.data?.last_event?.possible_choices[2].choice}
+                  </h3>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       )}
       <section className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20">
         <div className="space-y-8">
@@ -205,10 +210,15 @@ export const ScenarioState: React.FC<Props> = ({ slug }) => {
         <Overlay>
           <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl">
-              You have asked the right question! You <span className="text-green-500">WIN!</span>
+              You have asked the right question! You{" "}
+              <span className="text-green-500">WIN!</span>
             </h2>
             <h3 className="text-2xl font-bold">
-              Only <span className="text-green-500">{final_population(hook.data?.final_population)}</span> humans died!
+              Only{" "}
+              <span className="text-green-500">
+                {final_population(hook.data?.final_population)}
+              </span>{" "}
+              humans died!
             </h3>
           </div>
         </Overlay>

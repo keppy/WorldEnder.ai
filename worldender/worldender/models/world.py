@@ -41,7 +41,11 @@ class World(BaseModel):
         self.day += 1
         self.population = math.floor(
             self.population
-            - (self.population / math.log(self.population) * self.log_multiplier)
+            - (
+                self.population
+                / math.max(math.log(self.population), 0.01)
+                * self.log_multiplier
+            )
         )
         if self.population < 0:
             self.population = 0

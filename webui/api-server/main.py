@@ -4,13 +4,14 @@ from worldender.agents.gm import GameMaster, Move
 from worldender.models.game_plan import GamePlan
 from worldender.models.question import Question
 from worldender.models.question_response import QuestionResponse
+from .illustrate import gen_illustrate
 
 load_dotenv()
 
 import openai
 import instructor
-from fastapi import Body, FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import Body, FastAPI, Request, BackgroundTasks
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from worldender.models.location import Location
 from worldender.models.world_ender import WorldEnder
@@ -25,6 +26,8 @@ from .dtos import (
     Choice,
     GMResponse,
     GMRequest,
+    NewIllustrationRequest,
+    NewIllustrationResponse,
     NewScenarioRequest,
     NewScenarioResponse,
     Event,
@@ -32,7 +35,7 @@ from .dtos import (
     Scenario,
     World,
 )
-from .util import gen_scenario_id
+from .util import gen_illustration_id, gen_scenario_id
 from .error_handling import *
 from .storage import *
 
@@ -142,6 +145,47 @@ async def post_ask_question(scenario_id: str, data: Question) -> QuestionRespons
     scenario.question_response = question_response
     await store_scenario(scenario_id, scenario)
     return question_response
+
+
+@app.post("/illustration/new", response_model=NewIllustrationResponse)
+async def new_illustration(
+    req: NewIllustrationRequest, bgtasks: BackgroundTasks
+) -> NewIllustrationResponse:
+    id = gen_illustration_id()
+    illustration = Illustration(
+        prompt=req.prompt,
+        negative_prompt=req.negative_prompt,
+        aspect_ratio=req.aspect_ratio,
+        image_path="",
+        progress="inprogress",
+    )
+
+    await store_illustration(id, illustration)
+
+    # specifically dont await this
+    bgtasks.add_task(
+        gen_illustrate,
+        id,
+        req.prompt,
+        negative_prompt=req.negative_prompt,
+        aspect_ratio=req.aspect_ratio,
+    )
+    return NewIllustrationResponse(id=id, result=illustration)
+
+
+@app.get("/illustration/{illustration_id}")
+async def get_illustration(illustration_id: str):
+    illustration = await fetch_illustration(illustration_id)
+    del illustration.image_path
+    return illustration
+
+
+@app.get("/illustration/{illustration_id}/image")
+async def get_illustration_image(illustration_id: str):
+    illustration = await fetch_illustration(illustration_id)
+    if illustration.progress != "complete":
+        raise NotFoundException(f"Illustration with id {illustration_id} not ready")
+    return FileResponse(illustration.image_path, media_type="image/png")
 
 
 @app.exception_handler(CanonicalException)
